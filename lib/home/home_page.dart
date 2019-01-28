@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
             fontFamily: AppColorFonts.IconFontFamily
         ),
         selectedIcon: IconData(
-            0xe631,
+            0xe6310,
             fontFamily: AppColorFonts.IconFontFamily
         ),
       ),
