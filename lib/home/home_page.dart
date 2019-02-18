@@ -6,45 +6,57 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+enum ActionItem {
+  GROUP_CHAT,
+  ADD_FRIEND,
+  QR_SCAN,
+  PAYMENT,
+  HELP
+}
+
 class NavigationItemView {
-  final String _title;
-  final IconData _icon;
-  final IconData _selectIcon;
-  final Color _color;
   final BottomNavigationBarItem item;
 
   NavigationItemView({Key key, String title, IconData icon, Color color, IconData selectedIcon}):
-        _title = title,
-        _icon = icon,
-        _color = color,
-        _selectIcon = selectedIcon,
         item = new BottomNavigationBarItem(
-            icon: Icon(icon, color: Color(AppConstants.TabIconNormal),),
-            activeIcon: Icon(selectedIcon, color: Color(AppConstants.TabIconSelected),),
+            icon: Icon(icon,
+//              color: Color(AppConstants.TabIconNormal),
+            ),
+            activeIcon: Icon(selectedIcon,
+//              color: Color(AppConstants.TabIconSelected),
+            ),
             title: Text(title, style: TextStyle(
               fontSize: 14.0,
-              color: Color(AppConstants.TabIconNormal)
+//              color: Color(AppConstants.TabIconNormal)
             )),
             backgroundColor: Colors.white);
 }
 
 class _HomePageState extends State<HomePage> {
+  PageController _pageController;
+  List<Widget> _pages;
   List<NavigationItemView> _navigationItemViews;
-
+  int _currentSelectIndex = 0;
   @override
   void initState() {
     super.initState();
-
+    _pageController = PageController(initialPage: _currentSelectIndex);
+    _pages = [
+      Container(color: Colors.red),
+      Container(color: Colors.green),
+      Container(color: Colors.blue),
+      Container(color: Colors.yellow)
+    ];
     _navigationItemViews = [
       NavigationItemView(
         title: '微信',
         icon: IconData(
             0xe627,
-            fontFamily: AppColorFonts.IconFontFamily
+            fontFamily: AppColorFonts.IconFontFamily,
         ),
         selectedIcon: IconData(
-            0xe6310,
-            fontFamily: AppColorFonts.IconFontFamily
+            0xe631,
+            fontFamily: AppColorFonts.IconFontFamily,
         ),
       ),
 
@@ -52,11 +64,11 @@ class _HomePageState extends State<HomePage> {
         title: '通讯录',
         icon: IconData(
             0xe655,
-            fontFamily: AppColorFonts.IconFontFamily
+            fontFamily: AppColorFonts.IconFontFamily,
         ),
         selectedIcon: IconData(
             0xe6c2,
-            fontFamily: AppColorFonts.IconFontFamily
+            fontFamily: AppColorFonts.IconFontFamily,
         ),
       ),
 
@@ -64,11 +76,11 @@ class _HomePageState extends State<HomePage> {
         title: '发现',
         icon: IconData(
             0xe618,
-            fontFamily: AppColorFonts.IconFontFamily
+            fontFamily: AppColorFonts.IconFontFamily,
         ),
         selectedIcon: IconData(
             0xe600,
-            fontFamily: AppColorFonts.IconFontFamily
+            fontFamily: AppColorFonts.IconFontFamily,
         ),
       ),
 
@@ -76,11 +88,11 @@ class _HomePageState extends State<HomePage> {
         title: '我',
         icon: IconData(
             0xe60d,
-            fontFamily: AppColorFonts.IconFontFamily
+            fontFamily: AppColorFonts.IconFontFamily,
         ),
         selectedIcon: IconData(
             0xe608,
-            fontFamily: AppColorFonts.IconFontFamily
+            fontFamily: AppColorFonts.IconFontFamily,
         ),
       ),
     ];
@@ -93,35 +105,109 @@ class _HomePageState extends State<HomePage> {
           return view.item;
         }).toList(),
         type: BottomNavigationBarType.fixed,
-        currentIndex: 0,
+        fixedColor: const Color(AppConstants.TabIconSelected),
+        currentIndex: _currentSelectIndex,
         onTap: (int index){
-
+          setState(() {
+            _currentSelectIndex = index;
+            _pageController.animateToPage(
+                _currentSelectIndex
+                , duration: Duration(microseconds: 200)
+                , curve: Curves.easeInOut);
+          });
         },
     );
 
     return Scaffold(
       appBar: AppBar(
         title: Text('微信'),
+        elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(IconData(
+              0xe62b,
+              fontFamily: AppColorFonts.IconFontFamily,
+            ),
+              color: Color(AppConstants.TabIconNormal),
+              size: 22.0,
+            ),
             onPressed: () {
               print("点击了搜索按钮");
             },
           ),
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              print("显示下拉列表");
+          Container(width: 15.0),
+          PopupMenuButton(
+            itemBuilder:(BuildContext context) {
+              return <PopupMenuItem<ActionItem>>[
+                PopupMenuItem(
+                  child: _buildPopupMenuItem(0xe627, '添加朋友'),
+                  value: ActionItem.ADD_FRIEND,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMenuItem(0xe617, '发起群聊'),
+                  value: ActionItem.GROUP_CHAT,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMenuItem(0xe62d, '扫一扫'),
+                  value: ActionItem.QR_SCAN,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMenuItem(0xe642, '收付款'),
+                  value: ActionItem.PAYMENT,
+                ),
+                PopupMenuItem(
+                  child: _buildPopupMenuItem(0xe623, '帮助与反馈'),
+                  value: ActionItem.HELP,
+                ),
+              ];
+            },
+            icon: Icon(IconData(
+                0xe613,
+                fontFamily: AppColorFonts.IconFontFamily,
+            ),
+                color: Color(AppConstants.TabIconNormal),
+                size: 22.0,
+            ),
+            onSelected: (ActionItem selected) {
+              print('点击了$selected');
             },
           ),
+          Container(width: 10.0),
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: Color(AppConstants.AppBarColor),
       ),
-      body: Container(
-        color: Colors.white,
+      body: PageView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return _pages[index];
+        },
+        controller: _pageController,
+        itemCount: _pages.length,
+        onPageChanged: (int index) {
+          setState(() {
+            _currentSelectIndex = index;
+          });
+        },
       ),
       bottomNavigationBar: navigationBar,
+    );
+  }
+
+  _buildPopupMenuItem(int icon, String title) {
+    return Row(
+      children: <Widget>[
+        Icon(IconData(
+          icon,
+          fontFamily: AppColorFonts.IconFontFamily
+        ),
+        size: 22.0,
+        color: const Color(AppConstants.AppbarPopupMenuTextColor),),
+        Container(width: 12.0),
+        Text(
+          title,
+          style: TextStyle(color: const Color(AppConstants.AppbarPopupMenuTextColor),
+          ),
+        ),
+      ],
     );
   }
 }
