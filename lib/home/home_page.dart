@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weixin/home/constants.dart';
+import 'conversation_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,14 +21,14 @@ class NavigationItemView {
   NavigationItemView({Key key, String title, IconData icon, Color color, IconData selectedIcon}):
         item = new BottomNavigationBarItem(
             icon: Icon(icon,
-//              color: Color(AppConstants.TabIconNormal),
+//              color: Color(AppColors.TabIconNormal),
             ),
             activeIcon: Icon(selectedIcon,
-//              color: Color(AppConstants.TabIconSelected),
+//              color: Color(AppColors.TabIconSelectedColor),
             ),
             title: Text(title, style: TextStyle(
               fontSize: 14.0,
-//              color: Color(AppConstants.TabIconNormal)
+//              color: Color(AppColors.TabIconNormal)
             )),
             backgroundColor: Colors.white);
 }
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _pageController = PageController(initialPage: _currentSelectIndex);
     _pages = [
-      Container(color: Colors.red),
+      ConversationPage(),
       Container(color: Colors.green),
       Container(color: Colors.blue),
       Container(color: Colors.yellow)
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> {
           return view.item;
         }).toList(),
         type: BottomNavigationBarType.fixed,
-        fixedColor: const Color(AppConstants.TabIconSelected),
+        fixedColor: const Color(AppColors.TabIconSelectedColor),
         currentIndex: _currentSelectIndex,
         onTap: (int index){
           setState(() {
@@ -128,11 +129,9 @@ class _HomePageState extends State<HomePage> {
               0xe62b,
               fontFamily: AppColorFonts.IconFontFamily,
             ),
-              color: Color(AppConstants.TabIconNormal),
               size: 22.0,
             ),
             onPressed: () {
-              print("点击了搜索按钮");
             },
           ),
           Container(width: 15.0),
@@ -165,7 +164,6 @@ class _HomePageState extends State<HomePage> {
                 0xe613,
                 fontFamily: AppColorFonts.IconFontFamily,
             ),
-                color: Color(AppConstants.TabIconNormal),
                 size: 22.0,
             ),
             onSelected: (ActionItem selected) {
@@ -174,7 +172,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Container(width: 10.0),
         ],
-        backgroundColor: Color(AppConstants.AppBarColor),
+        backgroundColor: Color(AppColors.AppBarColor),
       ),
       body: PageView.builder(
         itemBuilder: (BuildContext context, int index) {
@@ -200,11 +198,11 @@ class _HomePageState extends State<HomePage> {
           fontFamily: AppColorFonts.IconFontFamily
         ),
         size: 22.0,
-        color: const Color(AppConstants.AppbarPopupMenuTextColor),),
+        color: const Color(AppColors.AppbarPopupMenuTextColor),),
         Container(width: 12.0),
         Text(
           title,
-          style: TextStyle(color: const Color(AppConstants.AppbarPopupMenuTextColor),
+          style: TextStyle(color: const Color(AppColors.AppbarPopupMenuTextColor),
           ),
         ),
       ],
