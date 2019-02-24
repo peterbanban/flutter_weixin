@@ -14,6 +14,8 @@ class AppColors {
   static const otherDeviceItemBg = 0xfff5f5f5;
   static const otherDeviceItemTextColor = 0xff606062;
   static const otherDeviceItemIconColor = 0xff606062;
+  static const ContactItemNameTextColor = 0xff888888;
+  static const ContactGroupBg = 0xffebebeb;
 }
 
 class AppStyles {
@@ -36,14 +38,20 @@ class AppStyles {
     fontSize: 13.0,
     color: Color(AppColors.otherDeviceItemTextColor)
   );
+
+  static const ContactItemTextStyle = TextStyle(
+      fontSize: 14.0,
+      color: Color(AppColors.ContactItemNameTextColor)
+  );
 }
 
 class AppSizes{
   static const ConversationAvatarSize = 48.0;
   static const DividerWidth = 0.5;
   static const UnReadMsgNotifyDotSize = 20.0;
-  static const muteSize = 18.0;
-  static const otherDeviceInfoItemHeight = 18.0;
+  static const MuteSize = 18.0;
+  static const OtherDeviceInfoItemHeight = 18.0;
+  static const ContactAvatarSize = 36.0;
 }
 
 class AppColorFonts {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weixin/home/constants.dart';
 import 'conversation_page.dart';
+import 'contacts_pager.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     _pageController = PageController(initialPage: _currentSelectIndex);
     _pages = [
       ConversationPage(),
-      Container(color: Colors.green),
+      ContactsPager(),
       Container(color: Colors.blue),
       Container(color: Colors.yellow)
     ];

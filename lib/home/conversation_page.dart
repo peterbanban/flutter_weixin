@@ -90,7 +90,7 @@ class _ConversationItem extends StatelessWidget {
               Container(height: 10.0),
               Image.asset(
                   'assets/images/ic_silent.png',
-                  width: AppSizes.muteSize,
+                  width: AppSizes.MuteSize,
                   color: conversationBean.isMute ? Color(AppColors.muteBg) : Colors.transparent
               ),
             ],
@@ -174,21 +174,3 @@ class _ConversationPageState extends State<ConversationPage>{
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
