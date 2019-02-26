@@ -73,7 +73,7 @@ class _ConversationItem extends StatelessWidget {
         children: <Widget>[
           avatarContainer,
           Container(width: 10.0),
-          Expanded(
+          Expanded(    //占满剩余空空间
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

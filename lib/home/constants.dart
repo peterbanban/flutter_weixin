@@ -52,6 +52,7 @@ class AppSizes{
   static const MuteSize = 18.0;
   static const OtherDeviceInfoItemHeight = 18.0;
   static const ContactAvatarSize = 36.0;
+  static const ContactIndexBar = 24.0;
 }
 
 class AppColorFonts {
